@@ -25,10 +25,32 @@ app.get('/health', (req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
-app.use('/')
+app.use('/api/conversations', conRoutes);
+app.use('/api/subscriptions', subRoutes);
 
-app.listen(PORT, () => {
+websocketService.initialize(httpServer);
+
+const dailyReset = () => {
+    const now = new Date();
+    const night = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() + 1,
+        0, 0, 0
+    );
+    const msToMidnight = night.getTime() - now.getTime();
+
+    setTimeout(() => {
+        usageServices.resetDailyUsage();
+        dailyReset();
+    }, msToMidnight);
+};
+
+
+
+httpServer.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
     console.log(`MODE: ${process.env.NODE_ENV || 'development'}`);
     console.log(`Health check: http://localhost:${PORT}/health`);
+    console.log(`WebSocket: ws://localhost:${PORT}/ws`);
 });

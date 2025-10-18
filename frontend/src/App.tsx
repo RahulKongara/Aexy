@@ -1,35 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useAuth } from './hooks/useAuth';
+import { Login } from './pages/Login';
+import { Dashboard } from './pages/Dashboard';
+import { ConversationScreen } from './pages/ConversationScreen';
 
-function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+const PrivateRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+	const { isAuth, loading } = useAuth();
 
-export default App
+	if (loading) {
+		return (
+			<div className="min-h-screen flex items-center justify-center">
+				<div className="text-xl">Loading...</div>
+			</div>
+		);
+	}
+
+	return isAuth ? <>{children}</> : <Navigate to="/login" />;
+};
+
+const App: React.FC = () => {
+	return (
+		<BrowserRouter>
+			<Routes>
+				<Route path="/login" element={<Login />} />
+				<Route
+					path="/dashboard"
+					element={
+						<PrivateRoute>
+							<Dashboard />
+						</PrivateRoute>
+					}
+				/>
+				<Route
+					path="/conversation"
+					element={
+						<PrivateRoute>
+							<ConversationScreen />
+						</PrivateRoute>
+					}
+				/>
+				<Route path="/" element={<Navigate to="/dashboard" />} />
+			</Routes>
+		</BrowserRouter>
+	);
+};
+
+export default App;

@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import type { User } from "../types";
+import { useNavigate } from "react-router-dom";
 
 export const useAuth = () => {
     const [user, setUser] = useState<User | null>(null);
     const [token, setToken] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
@@ -29,6 +31,7 @@ export const useAuth = () => {
         localStorage.removeItem('user');
         setToken(null)
         setUser(null);
+        navigate('/login');
     };
 
     return { user, token, loading, login, logout, isAuth: !!token };

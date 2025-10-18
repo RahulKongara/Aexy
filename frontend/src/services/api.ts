@@ -74,7 +74,7 @@ class ApiService {
     }
 
     async upgradeTier(tier: 'STANDARD' | 'PREMIUM'): Promise<{ message: string }> {
-        const { data } = await this.api.post('/api/subscription/upgrade', { tier });
+        const { data } = await this.api.post('/api/subscriptions/upgrade', { tier });
         return data;
     }
 }

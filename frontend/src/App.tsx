@@ -4,6 +4,8 @@ import { useAuth } from './hooks/useAuth';
 import { Login } from './pages/Login';
 import { Dashboard } from './pages/Dashboard';
 import { ConversationScreen } from './pages/ConversationScreen';
+import { History } from './pages/History';
+
 
 
 const PrivateRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -38,6 +40,14 @@ const App: React.FC = () => {
 					element={
 						<PrivateRoute>
 							<ConversationScreen />
+						</PrivateRoute>
+					}
+				/>
+				<Route
+					path="/history"
+					element={
+						<PrivateRoute>
+							<History />
 						</PrivateRoute>
 					}
 				/>

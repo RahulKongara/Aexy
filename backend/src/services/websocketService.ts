@@ -24,7 +24,7 @@ const HEARTBEAT_INTERVAL = 30000;
 export class WebSocketService {
     private wss: WebSocketServer | null = null;
     private clients: Map<string, AuthenticatedWS> = new Map();
-    private activityCheckInterval?: NodeJS.Timeoutl
+    private activityCheckInterval?: NodeJS.Timeout
 
     initialize(server: HTTPServer): void {
         this.wss = new WebSocketServer({ server, path: '/ws' });

@@ -80,6 +80,9 @@ export const Dashboard: React.FC = () => {
                 <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
                     <h1 className="text-2xl font-bold text-blue-600">Aexy</h1>
                     <div className="flex items-center space-x-4">
+                        <button onClick={() => navigate('/history')} className="text-sm text-blue-500 hover:underline">
+                            History
+                        </button>
                         <span className="text-sm text-gray-600">{user?.email}</span>
                         <button onClick={logout} className="text-sm text-red-500 hover:underline">Logout</button>
                     </div>

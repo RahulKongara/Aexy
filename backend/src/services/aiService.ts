@@ -1,5 +1,3 @@
-import { resolve } from "path";
-
 interface AIResponse {
     content: string;
     feedback?: string;

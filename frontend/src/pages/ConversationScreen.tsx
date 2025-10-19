@@ -74,10 +74,10 @@ export const ConversationScreen: React.FC = () => {
     if (summary) {
         return (
             <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center p-4">
-                <div className="max-w-2xl w-full bg-white rounded-lg shadow-xl p-8">
+                <div className="max-w-2xl w-full bg-white rounded-lg shadow-xl p-6 sm:p-8">
                     <div className="text-center mb-6">
-                        <div className="text-6xl mb-4">🎉</div>
-                        <h2 className="text-3xl font-bold mb-2">Great Job!</h2>
+                        <div className="text-5xl sm:text-6xl mb-4">🎉</div>
+                        <h2 className="text-2xl sm:text-3xl font-bold mb-2">Great Job!</h2>
                         <p className="text-gray-600">You completed the conversation</p>
                     </div>
 
@@ -125,25 +125,26 @@ export const ConversationScreen: React.FC = () => {
     return (
         <div className="flex flex-col h-screen bg-gray-100">
             {/* Header */}
-            <header className="bg-white border-b px-4 py-3 flex items-center justify-between">
-            <div className="flex items-center space-x-3">
+            <header className="bg-white border-b px-3 sm:px-4 py-3 flex items-center justify-between">
+            <div className="flex items-center space-x-2 sm:space-x-3 min-w-0">
                 <button
                 onClick={handleBackToDashboard}
-                className="text-blue-500 hover:text-blue-600"
+                className="text-blue-500 hover:text-blue-600 text-sm sm:text-base flex-shrink-0"
                 >
                 ← Back
                 </button>
-                <div className="flex items-center space-x-2">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-semibold">
+                <div className="flex items-center space-x-2 min-w-0">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-semibold text-sm sm:text-base flex-shrink-0">
                     AI
                 </div>
-                <div>
-                    <h2 className="font-semibold text-sm">
+                <div className="min-w-0">
+                    <h2 className="font-semibold text-xs sm:text-sm truncate">
                     {scenario?.replace('-', ' ').replace(/\b\w/g, (l) => l.toUpperCase()) || 'Conversation'}
                     </h2>
                     <div className="flex items-center space-x-1 text-xs text-gray-500">
                     <span className={`w-1.5 h-1.5 rounded-full ${isConnected ? 'bg-green-500' : 'bg-gray-400'}`}></span>
-                    <span>{isConnected ? 'Active now' : 'Connecting...'}</span>
+                    <span className="hidden sm:inline">{isConnected ? 'Active now' : 'Connecting...'}</span>
+                    <span className="sm:hidden">{isConnected ? 'Active' : 'Connecting...'}</span>
                     </div>
                 </div>
                 </div>
@@ -151,7 +152,7 @@ export const ConversationScreen: React.FC = () => {
             <button
                 onClick={handleEnd}
                 disabled={isEnding || !conId}
-                className="text-red-500 hover:text-red-600 disabled:opacity-50 text-sm font-medium"
+                className="text-red-500 hover:text-red-600 disabled:opacity-50 text-xs sm:text-sm font-medium flex-shrink-0"
             >
                 {isEnding ? 'Ending...' : 'End'}
             </button>

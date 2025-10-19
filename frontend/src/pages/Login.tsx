@@ -30,10 +30,10 @@ export const Login: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#001219] flex items-center justify-center">
-            <div className="bg-[#94d2bd] rounded-lg p-8 w-full max-w-md shadow-2xl shadow-amber-50">
-                <h1 className="text-4xl font-bold text-center pt-2 mb-2">Aexy</h1>
-                <p className="text-gray-600 text-center mb-6">AI Conversation Practice</p>
+        <div className="min-h-screen bg-[#001219] flex items-center justify-center px-4 sm:px-6 lg:px-8">
+            <div className="bg-[#94d2bd] rounded-lg p-6 sm:p-8 w-full max-w-md shadow-2xl shadow-amber-50">
+                <h1 className="text-3xl sm:text-4xl font-bold text-center pt-2 mb-2">Aexy</h1>
+                <p className="text-sm sm:text-base text-gray-600 text-center mb-6">AI Conversation Practice</p>
 
                 <form onSubmit={handleSubmit} className="space-y-4 form-style">
                     <div>

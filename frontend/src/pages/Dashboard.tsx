@@ -79,58 +79,66 @@ export const Dashboard: React.FC = () => {
     return (
         <div className="min-h-screen bg-[#001219]">
             <header className="shadow">
-                <div className="h-m-t h-m-b max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-                    <h1 className="text-4xl font-bold text-[#ee9b00]">Aexy</h1>
-                    <div className="flex items-center space-x-4">
-                        <button onClick={() => navigate('/history')} className="header-margin text-lg text-[#e9d8a6] hover:underline cursor-pointer">
+                <div className="h-m-t h-m-b max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
+                    <h1 className="text-3xl sm:text-4xl font-bold text-[#ee9b00]">Aexy</h1>
+                    <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto">
+                        <button onClick={() => navigate('/history')} className="header-margin text-base sm:text-lg text-[#e9d8a6] hover:underline cursor-pointer">
                             History
                         </button>
-                        <span className="text-lg header-margin text-white">{user?.email}</span>
-                        <button onClick={logout} className="text-lg header-margin logout-btn rounded-2xl text-white bg-[#ae2012] hover:underline cursor-pointer">Logout</button>
+                        <span className="text-sm sm:text-lg header-margin text-white truncate max-w-[200px] sm:max-w-none">{user?.email}</span>
+                        <button onClick={logout} className="text-base sm:text-lg header-margin logout-btn rounded-2xl text-white bg-[#ae2012] hover:underline cursor-pointer px-4 py-2">Logout</button>
                     </div>
                 </div>
             </header>
 
-            <main className="max-w-7xl mx-auto px-4 py-8">
-                <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4 mb-8">
-                    <div className="bg-gradient-to-br from-orange-400 to-red-500 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-200 flex justify-around items-center">
-                        <div className="text-4xl mb-3 text-white drop-shadow-lg">
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <div className="bg-gradient-to-br from-orange-400 to-red-500 p-4 sm:p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-200 flex flex-col sm:flex-row justify-around items-center gap-2">
+                        <div className="text-3xl sm:text-4xl text-white drop-shadow-lg">
                             <FaFire className="animate-pulse" />
                         </div>
-                        <div className="text-3xl font-bold text-white drop-shadow-md">
-                            {limit?.streak || 0}
+                        <div className="text-center sm:text-left">
+                            <div className="text-2xl sm:text-3xl font-bold text-white drop-shadow-md">
+                                {limit?.streak || 0}
+                            </div>
+                            <div className="text-xs sm:text-sm text-orange-50 font-medium">Day Streak</div>
                         </div>
-                        <div className="text-sm text-orange-50 font-medium">Day Streak</div>
                     </div>
 
-                    <div className="bg-gradient-to-br from-blue-400 to-indigo-500 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-200 flex justify-around items-center">
-                        <div className="text-4xl mb-3 text-white drop-shadow-lg">
+                    <div className="bg-gradient-to-br from-blue-400 to-indigo-500 p-4 sm:p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-200 flex flex-col sm:flex-row justify-around items-center gap-2">
+                        <div className="text-3xl sm:text-4xl text-white drop-shadow-lg">
                             <FaStop />
                         </div>
-                        <div className="text-3xl font-bold text-white drop-shadow-md">
-                            {limit?.used}/{limit?.limit}
+                        <div className="text-center sm:text-left">
+                            <div className="text-2xl sm:text-3xl font-bold text-white drop-shadow-md">
+                                {limit?.used}/{limit?.limit}
+                            </div>
+                            <div className="text-xs sm:text-sm text-blue-50 font-medium">Today's Chats</div>
                         </div>
-                        <div className="text-sm text-blue-50 font-medium">Today's Conversations</div>
                     </div>
 
-                    <div className="bg-gradient-to-br from-purple-400 to-pink-500 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-200 flex justify-around items-center">
-                        <div className="text-4xl mb-3 text-white drop-shadow-lg">
+                    <div className="bg-gradient-to-br from-purple-400 to-pink-500 p-4 sm:p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-200 flex flex-col sm:flex-row justify-around items-center gap-2">
+                        <div className="text-3xl sm:text-4xl text-white drop-shadow-lg">
                             <FaRegStar />
                         </div>
-                        <div className="text-3xl font-bold text-white drop-shadow-md">
-                            {user?.tier}
+                        <div className="text-center sm:text-left">
+                            <div className="text-2xl sm:text-3xl font-bold text-white drop-shadow-md">
+                                {user?.tier}
+                            </div>
+                            <div className="text-xs sm:text-sm text-purple-50 font-medium">Current Tier</div>
                         </div>
-                        <div className="text-sm text-purple-50 font-medium">Current Tier</div>
                     </div>
 
-                    <div className="bg-gradient-to-br from-green-400 to-teal-500 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-200 flex justify-around items-center">
-                        <div className="text-4xl mb-3 text-white drop-shadow-lg">
+                    <div className="bg-gradient-to-br from-green-400 to-teal-500 p-4 sm:p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-200 flex flex-col sm:flex-row justify-around items-center gap-2">
+                        <div className="text-3xl sm:text-4xl text-white drop-shadow-lg">
                             <FaChevronCircleUp />
                         </div>
-                        <div className="text-3xl font-bold text-white drop-shadow-md">
-                            Level 5
+                        <div className="text-center sm:text-left">
+                            <div className="text-2xl sm:text-3xl font-bold text-white drop-shadow-md">
+                                Level 5
+                            </div>
+                            <div className="text-xs sm:text-sm text-green-50 font-medium">Your Level</div>
                         </div>
-                        <div className="text-sm text-green-50 font-medium">Your Level</div>
                     </div>
                     {!limit?.allowed && (
                         <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
@@ -150,9 +158,9 @@ export const Dashboard: React.FC = () => {
                         </div>
                     )}
 
-                    <div className="mb-6 w-full h-m-b">
-                        <h2 className="text-2xl text-amber-50 font-bold mb-4">Choose a Scenario</h2>
-                        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div className="mb-6 w-full h-m-b col-span-1 sm:col-span-2 lg:col-span-4">
+                        <h2 className="text-xl sm:text-2xl text-amber-50 font-bold mb-4">Choose a Scenario</h2>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                             {SCENARIOS.map((scenario) => (
                                 <ScenarioCard
                                     key={scenario.id}

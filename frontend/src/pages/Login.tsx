@@ -8,6 +8,7 @@ export const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const { login } = useAuth();
@@ -15,15 +16,37 @@ export const Login: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
+        setSuccess('');
         setLoading(true);
+
+        // Client-side validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            setError('Please enter a valid email address');
+            setLoading(false);
+            return;
+        }
+
+        if (password.length < 6) {
+            setError('Password must be at least 6 characters long');
+            setLoading(false);
+            return;
+        }
 
         try {
             const response = isLogin ? await api.login(email, password) : await api.register(email, password);
 
+            if (!isLogin) {
+                setSuccess('Account created successfully! Redirecting...');
+            }
+
             login(response.token, response.user);
-            navigate('/dashboard');
+            setTimeout(() => navigate('/dashboard'), isLogin ? 0 : 1000);
         } catch (err: any) {
-            setError(err.response?.data?.error || 'Authentication failed');
+            // Extract error message from response
+            const errorMessage = err.response?.data?.error || 'Authentication failed. Please try again.';
+            setError(errorMessage);
+            console.error('Auth error:', err);
         } finally {
             setLoading(false);
         }
@@ -46,8 +69,16 @@ export const Login: React.FC = () => {
                     </div>
 
                     {error && (
-                        <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm">
-                            {error}
+                        <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-3 rounded-lg text-sm flex items-start gap-2">
+                            <span className="text-lg flex-shrink-0">⚠️</span>
+                            <span className="flex-1">{error}</span>
+                        </div>
+                    )}
+
+                    {success && (
+                        <div className="bg-green-50 border-l-4 border-green-500 text-green-700 p-3 rounded-lg text-sm flex items-start gap-2">
+                            <span className="text-lg flex-shrink-0">✓</span>
+                            <span className="flex-1">{success}</span>
                         </div>
                     )}
 

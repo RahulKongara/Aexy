@@ -21,5 +21,5 @@ COPY . .
 # Expose port
 EXPOSE 5000
 
-# Start application using tsx (no build needed)
-CMD ["npx", "tsx", "src/server.ts"]
+# Run migrations and start application
+CMD ["sh", "-c", "npx prisma migrate deploy && npx prisma generate && npx tsx src/server.ts"]

@@ -6,6 +6,8 @@ import { ScenarioCard } from "../components/ScenarioCard";
 import { UpgradeModal } from "../components/UpgradeModal";
 import api from '../services/api';
 import type { Scenario } from "../types";
+import { FaFire, FaStop } from "react-icons/fa";
+
 
 const SCENARIOS: Scenario[] = [
     {
@@ -78,7 +80,7 @@ export const Dashboard: React.FC = () => {
         <div className="min-h-screen bg-[#001219]">
             <header className="shadow">
                 <div className="h-m-t h-m-b max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-                    <h1 className="text-4xl font-bold text-blue-600">Aexy</h1>
+                    <h1 className="text-4xl font-bold text-[#ee9b00]">Aexy</h1>
                     <div className="flex items-center space-x-4">
                         <button onClick={() => navigate('/history')} className="header-margin text-lg text-[#e9d8a6] hover:underline cursor-pointer">
                             History
@@ -91,14 +93,18 @@ export const Dashboard: React.FC = () => {
 
             <main className="max-w-7xl mx-auto px-4 py-8">
                 <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4 mb-8">
-                    <div className="bg-white p-6 rounded-lg shadow">
-                        <div className="text-3xl mb-2">🔥</div>
-                        <div className="text-2xl font-bold">{limit?.streak || 0}</div>
-                        <div className="text-sm text-gray-600">Day Streak</div>
+                    <div className="bg-gradient-to-br from-orange-400 to-red-500 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-200">
+                        <div className="text-4xl mb-3 text-white drop-shadow-lg">
+                            <FaFire className="animate-pulse" />
+                        </div>
+                        <div className="text-3xl font-bold text-white drop-shadow-md">
+                            {limit?.streak || 0}
+                        </div>
+                        <div className="text-sm text-orange-50 font-medium">Day Streak</div>
                     </div>
 
                     <div className="bg-white p-6 rounded-lg shadow">
-                        <div className="text-3xl mb-2"></div>
+                        <div className="text-3xl mb-2"><FaStop /></div>
                         <div className="text-2xl font-bold">
                             {limit?.used}/{limit?.limit}
                         </div>

@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import "tailwindcss";
 
 * {
@@ -7,11 +8,42 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family:  "Inter", sans-serif;
+  background-color: #001219;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.form-style{
+  padding: 10px;
+}
+
+
+.login-btn {
+  margin-top: 10px;
+  padding-top: 4px;
+}
+
+.login-margin-bot {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.header-margin {
+  margin-right: 10px;
+}
+
+.h-m-t{
+  margin-top: 20px;
+}
+
+.h-m-b {
+  margin-bottom: 50px;
+} 
+
+.logout-btn {
+  padding: 5px;
+  
 }
 
 /* Typing indicator animation delays */

@@ -1,5 +1,5 @@
 import { Server as HTTPServer } from 'http';
-import { WebSocketServer, WebSocket } from 'ws';
+import { WebSocketServer, WebSocket, RawData } from 'ws';
 import jwt from 'jsonwebtoken';
 import prisma from '../db/prisma';
 import aiService from './aiService';
@@ -137,7 +137,7 @@ export class WebSocketService {
         });
     }
 
-    private async handleMsg(ws: AuthenticatedWS, data: Buffer): Promise<void> {
+    private async handleMsg(ws: AuthenticatedWS, data: RawData): Promise<void> {
         try {
             const message: WSMsg = JSON.parse(data.toString());
             console.log('📨 Received message:', message.type, 'from user:', ws.userId);

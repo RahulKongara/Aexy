@@ -30,19 +30,19 @@ export const Login: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center p-4">
-            <div className="bg-white rounded-lg shadow-xl p-8 w-full max-w-md">
-                <h1 className="text-3xl font-bold text-center mb-2">Aexy</h1>
+        <div className="min-h-screen bg-[#001219] flex items-center justify-center">
+            <div className="bg-[#94d2bd] rounded-lg p-8 w-full max-w-md shadow-2xl shadow-amber-50">
+                <h1 className="text-4xl font-bold text-center pt-2 mb-2">Aexy</h1>
                 <p className="text-gray-600 text-center mb-6">AI Conversation Practice</p>
 
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4 form-style">
                     <div>
-                        <label className="block text-sm font-medium mb-1">Email</label>
-                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                        <label className="block text-sm font-medium login-margin-bot">Email</label>
+                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#669bbc]" required />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium mb-1">Password</label>
-                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                        <label className="block text-sm font-medium login-margin-bot">Password</label>
+                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#669bbc]" required />
                     </div>
 
                     {error && (
@@ -51,18 +51,19 @@ export const Login: React.FC = () => {
                         </div>
                     )}
 
-                    <button type="submit" disabled={loading} className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 disabled:opacity-50">
+
+                    <button type="submit" disabled={loading} className="login-btn w-full px-4 py-2 bg-[#669bbc] text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 font-medium">
                         {loading ? 'Loading...' : isLogin ? 'Login' : 'Register'}
                     </button>
                 </form>
 
                 <div className="mt-4 text-center">
-                    <button onClick={() => setIsLogin(!isLogin)} className="text-blue-500 hover:underline text-sm">
+                    <button onClick={() => setIsLogin(!isLogin)} className="text-blue-800 hover:underline text-sm">
                         {isLogin ? "Don't have an account? Register" : "Already have an account? Login"}
                     </button>
                 </div>
 
-                <div className="mt-6 pt-6 border-t">
+                <div className="mt-6 pt-6 border-t flex flex-col justify-center items-center">
                     <p className="text-xs text-gray-500 text-center mb-2">Test accounts:</p>
                     <p className="text-xs text-gray-600">free@test.com (Free tier)</p>
                     <p className="text-xs text-gray-600">standard@test.com (Standard tier)</p>

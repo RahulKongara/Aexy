@@ -75,22 +75,22 @@ export const Dashboard: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            <header className="bg-white shadow">
-                <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-                    <h1 className="text-2xl font-bold text-blue-600">Aexy</h1>
+        <div className="min-h-screen bg-[#001219]">
+            <header className="shadow">
+                <div className="h-m-t h-m-b max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+                    <h1 className="text-4xl font-bold text-blue-600">Aexy</h1>
                     <div className="flex items-center space-x-4">
-                        <button onClick={() => navigate('/history')} className="text-sm text-blue-500 hover:underline">
+                        <button onClick={() => navigate('/history')} className="header-margin text-lg text-[#e9d8a6] hover:underline cursor-pointer">
                             History
                         </button>
-                        <span className="text-sm text-gray-600">{user?.email}</span>
-                        <button onClick={logout} className="text-sm text-red-500 hover:underline">Logout</button>
+                        <span className="text-lg header-margin text-white">{user?.email}</span>
+                        <button onClick={logout} className="text-lg header-margin logout-btn rounded-2xl text-white bg-[#ae2012] hover:underline cursor-pointer">Logout</button>
                     </div>
                 </div>
             </header>
 
             <main className="max-w-7xl mx-auto px-4 py-8">
-                <div className="grid md:grid-cols-4 gap-4 mb-8">
+                <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4 mb-8">
                     <div className="bg-white p-6 rounded-lg shadow">
                         <div className="text-3xl mb-2">🔥</div>
                         <div className="text-2xl font-bold">{limit?.streak || 0}</div>

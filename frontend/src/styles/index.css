@@ -46,6 +46,17 @@ body {
   
 }
 
+.modal {
+  padding: 32px;
+}
+
+.popular {
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
 /* Typing indicator animation delays */
 .animate-bounce.delay-100 {
   animation-delay: 0.1s;

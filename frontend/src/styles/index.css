@@ -57,6 +57,10 @@ body {
   padding-bottom: 4px;
 }
 
+.msgp {
+  padding: 8px 16px 8px 16px;
+}
+
 /* Typing indicator animation delays */
 .animate-bounce.delay-100 {
   animation-delay: 0.1s;

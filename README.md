@@ -100,32 +100,32 @@ An intelligent platform for practicing real-world conversations with AI across m
    - Backend API: http://localhost:5000
    - Backend Health: http://localhost:5000/health
 
-### Local Development (With Docker)
+### Docker Deployment
 
-1. **Clone and navigate**
+**Production Mode (Recommended):**
 
-   ```bash
-   git clone https://github.com/RahulKongara/Aexy.git
-   cd Aexy
-   ```
+```bash
+# Production build with serve (static files)
+docker-compose up --build
+```
 
-2. **Set up environment**
+**Development Mode (with hot-reload):**
 
-   ```bash
-   cp .env.example .env
-   # Edit .env with your credentials
-   ```
+```bash
+# Development with volume mounts for live code changes
+docker-compose -f docker-compose.dev.yaml up --build
+```
 
-3. **Start with Docker Compose**
+**Access:**
 
-   ```bash
-   docker-compose up --build
-   ```
+- Frontend: http://localhost:5173
+- Backend: http://localhost:5000
+- PostgreSQL: localhost:5433
 
-4. **Access the app**
-   - Frontend: http://localhost:5173
-   - Backend: http://localhost:5000
-   - PostgreSQL: localhost:5433
+**Note:**
+
+- `docker-compose.yaml` - Production build (optimized, no volumes)
+- `docker-compose.dev.yaml` - Development (hot-reload with volumes)
 
 ## 📦 Project Structure
 

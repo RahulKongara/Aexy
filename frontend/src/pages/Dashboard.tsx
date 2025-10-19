@@ -6,7 +6,7 @@ import { ScenarioCard } from "../components/ScenarioCard";
 import { UpgradeModal } from "../components/UpgradeModal";
 import api from '../services/api';
 import type { Scenario } from "../types";
-import { FaFire, FaStop } from "react-icons/fa";
+import { FaFire, FaStop, FaRegStar, FaChevronCircleUp } from "react-icons/fa";
 
 
 const SCENARIOS: Scenario[] = [
@@ -93,7 +93,7 @@ export const Dashboard: React.FC = () => {
 
             <main className="max-w-7xl mx-auto px-4 py-8">
                 <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4 mb-8">
-                    <div className="bg-gradient-to-br from-orange-400 to-red-500 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-200">
+                    <div className="bg-gradient-to-br from-orange-400 to-red-500 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-200 flex justify-between items-center">
                         <div className="text-4xl mb-3 text-white drop-shadow-lg">
                             <FaFire className="animate-pulse" />
                         </div>
@@ -103,24 +103,34 @@ export const Dashboard: React.FC = () => {
                         <div className="text-sm text-orange-50 font-medium">Day Streak</div>
                     </div>
 
-                    <div className="bg-white p-6 rounded-lg shadow">
-                        <div className="text-3xl mb-2"><FaStop /></div>
-                        <div className="text-2xl font-bold">
+                    <div className="bg-gradient-to-br from-blue-400 to-indigo-500 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-200">
+                        <div className="text-4xl mb-3 text-white drop-shadow-lg">
+                            <FaStop />
+                        </div>
+                        <div className="text-3xl font-bold text-white drop-shadow-md">
                             {limit?.used}/{limit?.limit}
                         </div>
-                        <div className="text-sm text-gray-600">Today's Conversations</div>
+                        <div className="text-sm text-blue-50 font-medium">Today's Conversations</div>
                     </div>
 
-                    <div className="bg-white p-6 rounded-lg shadow">
-                        <div className="text-3xl mb-2">⭐</div>
-                        <div className="text-2xl font-bold">{user?.tier}</div>
-                        <div className="text-sm text-gray-600">Current Tier</div>
+                    <div className="bg-gradient-to-br from-purple-400 to-pink-500 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-200">
+                        <div className="text-4xl mb-3 text-white drop-shadow-lg">
+                            <FaRegStar />
+                        </div>
+                        <div className="text-3xl font-bold text-white drop-shadow-md">
+                            {user?.tier}
+                        </div>
+                        <div className="text-sm text-purple-50 font-medium">Current Tier</div>
                     </div>
 
-                    <div className="bg-white p-6 rounded-lg shadow">
-                        <div className="text-3xl mb-2"></div>
-                        <div className="text-2xl font-bold">Level 5</div>
-                        <div className="text-sm text-gray-600">Your Level</div>
+                    <div className="bg-gradient-to-br from-green-400 to-teal-500 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-200">
+                        <div className="text-4xl mb-3 text-white drop-shadow-lg">
+                            <FaChevronCircleUp />
+                        </div>
+                        <div className="text-3xl font-bold text-white drop-shadow-md">
+                            Level 5
+                        </div>
+                        <div className="text-sm text-green-50 font-medium">Your Level</div>
                     </div>
                     {!limit?.allowed && (
                         <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
@@ -154,19 +164,19 @@ export const Dashboard: React.FC = () => {
                         </div>
                     </div>
 
-                    {user?.tier === 'FREE' && (
-                        <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg p-6 text-center">
-                            <h3 className="text-2xl font-bold mb-2">Ready for More?</h3>
-                            <p className="mb-4">Upgrade to unlock unlimited conversations and advanced features</p>
-                            <button
+                </div>
+                {user?.tier === 'FREE' && (
+                    <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg p-6 text-center">
+                        <h3 className="text-2xl font-bold mb-2">Ready for More?</h3>
+                        <p className="mb-4">Upgrade to unlock unlimited conversations and advanced features</p>
+                        <button
                             onClick={() => setShowUpgrade(true)}
                             className="bg-white text-blue-600 px-6 py-2 rounded-lg font-semibold hover:bg-gray-100"
-                            >
+                        >
                             View Plans
-                            </button>
-                        </div>
-                    )}
-                </div>
+                        </button>
+                    </div>
+                )}
             </main>
             <UpgradeModal
                 isOpen={showUpgrade}

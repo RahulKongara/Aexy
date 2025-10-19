@@ -123,87 +123,95 @@ export const ConversationScreen: React.FC = () => {
     }
 
     return (
-        <div className="flex flex-col h-screen bg-gray-50">
-            <header className="bg-white shadow-sm px-4 py-3 flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                    <button
-                        onClick={handleBackToDashboard}
-                        className="text-gray-600 hover:text-gray-800"
-                    >
-                        ← Back
-                    </button>
-                    <div>
-                        <h2 className="font-semibold">
-                            {scenario?.replace('-', ' ').replace(/\b\w/g, (l) => l.toUpperCase()) || 'Conversation'}
-                        </h2>
-                        <div className="flex items-center space-x-2 text-xs text-gray-500">
-                            <span className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`}></span>
-                            <span>{isConnected ? 'Connected' : 'Reconnecting...'}</span>
-                        </div>
+        <div className="flex flex-col h-screen bg-gray-100">
+            {/* Header */}
+            <header className="bg-white border-b px-4 py-3 flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+                <button
+                onClick={handleBackToDashboard}
+                className="text-blue-500 hover:text-blue-600"
+                >
+                ← Back
+                </button>
+                <div className="flex items-center space-x-2">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-semibold">
+                    AI
+                </div>
+                <div>
+                    <h2 className="font-semibold text-sm">
+                    {scenario?.replace('-', ' ').replace(/\b\w/g, (l) => l.toUpperCase()) || 'Conversation'}
+                    </h2>
+                    <div className="flex items-center space-x-1 text-xs text-gray-500">
+                    <span className={`w-1.5 h-1.5 rounded-full ${isConnected ? 'bg-green-500' : 'bg-gray-400'}`}></span>
+                    <span>{isConnected ? 'Active now' : 'Connecting...'}</span>
                     </div>
                 </div>
-                <button
-                    onClick={handleEnd}
-                    disabled={isEnding || !conId}
-                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 disabled:opacity-50 text-sm"
-                >
-                    {isEnding ? 'Ending...' : 'End Conversation'}
-                </button>
+                </div>
+            </div>
+            <button
+                onClick={handleEnd}
+                disabled={isEnding || !conId}
+                className="text-red-500 hover:text-red-600 disabled:opacity-50 text-sm font-medium"
+            >
+                {isEnding ? 'Ending...' : 'End'}
+            </button>
             </header>
 
+            {/* Error Alert */}
             {error && (
-                <div className="bg-red-50 border-l-4 border-red-500 p-4 mx-4 mt-4 flex items-center justify-between">
-                    <div className="flex items-center">
-                        <span className="text-red-500 text-xl mr-3">⚠️</span>
-                        <p className="text-red-700 text-sm">{error}</p>
-                    </div>
-                    <button
-                        onClick={clearError}
-                        className="text-red-500 hover:text-red-700 text-sm font-semibold"
-                    >
-                        Dismiss
-                    </button>
+            <div className="bg-red-50 border-b border-red-200 p-3 mx-4 mt-2 rounded-lg flex items-center justify-between">
+                <div className="flex items-center">
+                <span className="text-red-500 text-lg mr-2">⚠️</span>
+                <p className="text-red-700 text-xs">{error}</p>
+                </div>
+                <button
+                onClick={clearError}
+                className="text-red-500 hover:text-red-700 text-xs font-semibold"
+                >
+                ✕
+                </button>
+            </div>
+            )}
+
+            {/* Messages Area */}
+            <div className="flex-1 overflow-y-auto px-4 py-4">
+            {messages.length === 0 && !isTyping && (
+                <div className="text-center text-gray-400 mt-12">
+                <div className="text-5xl mb-3">💬</div>
+                <p className="text-sm">Starting conversation...</p>
                 </div>
             )}
 
-            <div className="flex-1 overflow-y-auto px-4 py-6">
-                <div className="max-w-3xl mx-auto">
+            {messages.map((message) => (
+                <MessageBubble key={message.id} message={message} />
+            ))}
 
-                    {messages.length === 0 && !isTyping && (
-                        <div className="text-center text-gray-500 mt-8">
-                            <div className="text-4xl mb-3">👋</div>
-                            <p>Starting conversation...</p>
-                        </div>
-                    )}
+            {isTyping && <TypingIndicator />}
 
-                    {messages.map((message) => (
-                        <MessageBubble key={message.id} message={message} />
-                    ))}
-
-                    {isTyping && <TypingIndicator />}
-
-                    <div ref={messagesEndRef} />
-                </div>
+            <div ref={messagesEndRef} />
             </div>
 
-            <div className="bg-white border-t px-4 py-4">
-                <form onSubmit={handleSend} className="max-w-3xl mx-auto flex space-x-3">
-                    <input
-                        type="text"
-                        value={inputValue}
-                        onChange={(e) => setInputValue(e.target.value)}
-                        placeholder="Type your message..."
-                        disabled={!isConnected || !conId || isEnding}
-                        className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
-                    />
-                    <button
-                        type="submit"
-                        disabled={!inputValue.trim() || !isConnected || !conId || isEnding}
-                        className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        Send
-                    </button>
-                </form>
+            {/* Input Area */}
+            <div className="bg-white border-t px-4 py-3 safe-area-inset-bottom">
+            <form onSubmit={handleSend} className="flex items-end space-x-2">
+                <div className="flex-1 bg-gray-100 rounded-full px-4 py-2 flex items-center">
+                <input
+                    type="text"
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    placeholder="Message..."
+                    disabled={!isConnected || !conId || isEnding}
+                    className="flex-1 bg-transparent focus:outline-none disabled:opacity-50 text-sm"
+                />
+                </div>
+                <button
+                type="submit"
+                disabled={!inputValue.trim() || !isConnected || !conId || isEnding}
+                className="w-10 h-10 bg-blue-500 text-white rounded-full hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center flex-shrink-0"
+                >
+                <span className="text-lg">↑</span>
+                </button>
+            </form>
             </div>
         </div>
     );

@@ -27,7 +27,7 @@ export const UpgradeModal: React.FC<UpgradeModalProps> = ({
                             <li className="flex items-center"><span className="text-green-500 mr-2">&#10004;</span> All scenarios</li>
                             <li className="flex items-center"><span className="text-green-500 mr-2">&#10004;</span> Detailed feedback</li>
                         </ul>
-                        <button onClick={() => onUpgrade('STANDARD')} disabled={currentTier === 'STANDARD' || currentTier === 'PREMIUM'} className="w-full bg-blue-500 text-white py-2 rounded-lg h-m-t h-m-b hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed">
+                        <button onClick={() => onUpgrade('STANDARD')} disabled={currentTier === 'STANDARD' || currentTier === 'PREMIUM'} className="w-full bg-blue-500 text-white py-2 rounded-lg h-m-t m-b hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed">
                             {currentTier === 'STANDARD' ? 'Current Plan' : 'Upgrade'}
                         </button>
                     </div>
@@ -44,7 +44,7 @@ export const UpgradeModal: React.FC<UpgradeModalProps> = ({
                             <li className="flex items-center"><span className="text-green-500 mr-2">&#10004;</span> Advanced AI feedback</li>
                             <li className="flex items-center"><span className="text-green-500 mr-2">&#10004;</span> Priority support</li>
                         </ul>
-                        <button onClick={() => onUpgrade('PREMIUM')} disabled={currentTier === 'PREMIUM'} className="w-full bg-purple-500 text-white h-m-t h-m-b py-2 rounded-lg hover:bg-purple-600 disabled:opacity-50 disabled:cursor-not-allowed">
+                        <button onClick={() => onUpgrade('PREMIUM')} disabled={currentTier === 'PREMIUM'} className="w-full bg-purple-500 text-white h-m-t m-b py-2 rounded-lg hover:bg-purple-600 disabled:opacity-50 disabled:cursor-not-allowed">
                             {currentTier === 'STANDARD' ? 'Current Plan' : 'Upgrade'}
                         </button>
                     </div>

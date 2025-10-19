@@ -41,6 +41,10 @@ body {
   margin-bottom: 50px;
 } 
 
+.m-b {
+  margin-bottom: 20px;
+}
+
 .logout-btn {
   padding: 5px;
   

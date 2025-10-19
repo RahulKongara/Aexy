@@ -17,7 +17,7 @@ export const useWebSocket = (token: string | null) => {
     const ws = useRef<WebSocket | null>(null);
     const reconnectAttempts = useRef(0);
     const maxReconnectAttempts = 5;
-    const reconnectTimeout = useRef<NodeJS.Timeout | null>(null);
+    const reconnectTimeout = useRef<number | null>(null);
 
     const connect = useCallback(() => {
         if (!token) return;

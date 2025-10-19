@@ -46,9 +46,12 @@ export interface WSMessage {
     type: string;
     content?: string;
     conId?: string;
+    userId?: string;
     scenario?: string;
     summary?: string;
     feedback?: string;
+    message?: string;
+    messageCt?: number;
     timestamp?: string;
     isTyping?: boolean;
 }

@@ -11,6 +11,7 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:seed": "tsx prisma/seed.ts",
     "prisma:studio": "prisma studio",
+    "cleanup:conversations": "tsx scripts/cleanup-conversations.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -30,6 +31,7 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@google/genai": "^1.25.0",
     "@google/generative-ai": "^0.24.1",
     "@prisma/client": "^6.17.1",
     "bcryptjs": "^3.0.2",

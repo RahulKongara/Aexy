@@ -38,12 +38,11 @@ export class AIService {
         scenario?: string
     ): Promise<AIResponse> {
         try {
-            // Uncomment when Gemini is installed
             if (!this.genAI) {
                 throw new Error('Gemini AI not initialized');
             }
 
-            const model = this.genAI.getGenerativeModel({ model: 'gemini-pro' });
+            const model = this.genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
             const systemPrompt = this.getSystemPrompt(scenario);
             const historyText = convoHistory
@@ -56,13 +55,12 @@ export class AIService {
             const response = await result.response;
             const text = response.text();
 
+            console.log('✨ Gemini AI response generated');
             return { content: text };
-
-            // Fallback to mock for now
-            return this.generateMockResponse(userMsg, convoHistory, scenario);
         } catch (error) {
             console.error('Gemini API error:', error);
             // Fallback to mock on error
+            console.log('⚠️ Falling back to mock response due to error');
             return this.generateMockResponse(userMsg, convoHistory, scenario);
         }
     }

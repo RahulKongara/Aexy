@@ -18,7 +18,6 @@ export const useWebSocket = (token: string | null) => {
     const reconnectAttempts = useRef(0);
     const maxReconnectAttempts = 5;
     const reconnectTimeout = useRef<NodeJS.Timeout | null>(null);
-    const pingInterval = useRef<NodeJS.Timeout | null>(null);
 
     const connect = useCallback(() => {
         if (!token) return;
@@ -33,22 +32,19 @@ export const useWebSocket = (token: string | null) => {
                 setError(null);
                 reconnectAttempts.current = 0;
 
-                if (pingInterval.current) clearInterval(pingInterval.current);
-                    pingInterval.current = setInterval(() => {
-                    if (ws.current?.readyState === WebSocket.OPEN) {
-                        ws.current.send(JSON.stringify({ type: 'ping' }));
-                    }
-                }, 30000);
+                // No need for manual ping - WebSocket has built-in ping/pong
             };
 
             ws.current.onmessage = (event) => {
                 const data: WSMessage = JSON.parse(event.data);
+                // console.log('WS received:', data.type, data);
 
                 switch (data.type) {
                     case 'connected':
-                        console.log('Connected as user:', data.conId);
+                        // console.log('✅ Connected as user:', data.userId);
                         break;
                     case 'conversation_started':
+                        // console.log('🎬 Conversation started, conId:', data.conId);
                         setConId(data.conId || null);
                         setSummary(null);
                         break;
@@ -68,7 +64,7 @@ export const useWebSocket = (token: string | null) => {
                         setIsTyping(data.isTyping || false);
                         break;
                     case 'conversation_ended':
-                        console.log('Conversation ended:', data);
+                        // console.log('Conversation ended:', data);
                         setSummary({
                             summary: data.summary || '',
                             feedback: data.feedback || '',
@@ -77,7 +73,7 @@ export const useWebSocket = (token: string | null) => {
                         setConId(null);
                         break;
                     case 'conversation_timeout':
-                        console.log('Conversation timed out:', data);
+                        // console.log('Conversation timed out:', data);
                         setSummary({
                             summary: data.summary || 'Conversation ended due to inactivity',
                             feedback: data.feedback || '',
@@ -88,6 +84,7 @@ export const useWebSocket = (token: string | null) => {
                         break;
                     case 'error':
                         console.error('Websocket error:', data);
+                        setError(data.message || 'An error occurred');
                         break;
                     case 'pong':
                         break;
@@ -97,11 +94,6 @@ export const useWebSocket = (token: string | null) => {
             ws.current.onclose = (event) => {
                 console.log('Socket disconnected:', event.code, event.reason);
                 setIsConnected(false);
-
-                if (pingInterval.current) {
-                    clearInterval(pingInterval.current);
-                    pingInterval.current = null;
-                }
 
                 if (reconnectAttempts.current < maxReconnectAttempts) {
                     const delay = Math.min(1000 * Math.pow(2, reconnectAttempts.current), 30000);
@@ -131,11 +123,6 @@ export const useWebSocket = (token: string | null) => {
             clearTimeout(reconnectTimeout.current);
             reconnectTimeout.current = null;
         }
-    
-        if (pingInterval.current) {
-            clearInterval(pingInterval.current);
-            pingInterval.current = null;
-        }
 
         if (ws.current) {
             ws.current.close();
@@ -146,12 +133,15 @@ export const useWebSocket = (token: string | null) => {
     }, []);
 
     const startConversation = useCallback((scenario?: string) => {
+        // console.log('🚀 Starting conversation, scenario:', scenario);
         if (ws.current?.readyState === WebSocket.OPEN) {
             setMessages([]);
             setSummary(null);
             setError(null);
+            // console.log('📤 Sending start message');
             ws.current.send(JSON.stringify({ type: 'start', scenario }));
         }else {
+            // console.error('❌ WebSocket not open, state:', ws.current?.readyState);
             setError('Not connected. Please wait...');
         }
     }, []);

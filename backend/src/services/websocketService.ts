@@ -140,10 +140,12 @@ export class WebSocketService {
     private async handleMsg(ws: AuthenticatedWS, data: Buffer): Promise<void> {
         try {
             const message: WSMsg = JSON.parse(data.toString());
+            console.log('📨 Received message:', message.type, 'from user:', ws.userId);
             ws.lastActivity = Date.now();
 
             switch(message.type) {
                 case 'start':
+                    console.log('🎬 Handling start conversation');
                     await this.handleStartConvo(ws, message);
                     break;
                 case 'message':
@@ -157,7 +159,8 @@ export class WebSocketService {
             }
         } catch (error) {
             console.error('Websocket message error:', error);
-            ws.send(JSON.stringify({ type: 'error', message: 'Invalid message format' }));
+            const errorMsg = error instanceof Error ? error.message : 'Invalid message format';
+            ws.send(JSON.stringify({ type: 'error', message: errorMsg }));
         }
     }
 
@@ -165,9 +168,14 @@ export class WebSocketService {
         ws: AuthenticatedWS,
         message: WSMsg
     ): Promise<void> {
-        if (!ws.userId) return;
+        if (!ws.userId) {
+            console.log('❌ No userId on WebSocket');
+            return;
+        }
 
         try {
+            console.log('👤 User', ws.userId, 'starting conversation, scenario:', message.scenario);
+            
             const activeConvo = await prisma.conversation.findFirst({
                 where: {
                     userId: ws.userId,
@@ -176,13 +184,22 @@ export class WebSocketService {
             });
 
             if (activeConvo) {
-                ws.send(JSON.stringify({
-                    type: 'error',
-                    message: 'You already have an active conversation. Please end it fiest.'
-                }));
-                return;
+                console.log('⚠️ User already has active conversation:', activeConvo.id);
+                console.log('🧹 Auto-closing stale conversation...');
+                
+                // Auto-close the stale conversation instead of blocking
+                await prisma.conversation.update({
+                    where: { id: activeConvo.id },
+                    data: {
+                        endTime: new Date(),
+                        summary: 'Auto-closed when starting new conversation',
+                    },
+                });
+                
+                console.log('✅ Stale conversation closed, proceeding with new one');
             }
 
+            console.log('✅ Creating new conversation...');
             const convo = await prisma.conversation.create({
                 data: {
                     userId: ws.userId,
@@ -190,15 +207,17 @@ export class WebSocketService {
                 },
             });
 
+            console.log('🎉 Conversation created with ID:', convo.id);
             ws.conId = convo.id;
             ws.lastActivity = Date.now();
 
-            ws.send(JSON.stringify({
+            const responseMsg = JSON.stringify({
                 type: 'conversation_started',
                 conId: convo.id,
                 scenario: convo.scenario,
-
-            }));
+            });
+            console.log('📤 Sending conversation_started:', responseMsg);
+            ws.send(responseMsg);
 
             const greetings: Record<string, string> = {
                 'job-interview': "Hello! I'm your interviewer today. Thank you for coming in. Let's start with a simple question: Can you tell me about yourself?",
@@ -224,9 +243,10 @@ export class WebSocketService {
             }));
         } catch (e) {
             console.error('Start Conversation error:', e);
+            const errorMsg = e instanceof Error ? e.message : 'Failed to start conversation';
             ws.send(JSON.stringify({
                 type: 'error',
-                message: 'Failed to start conversation'
+                message: errorMsg
             }));
         }
     }
@@ -300,9 +320,10 @@ export class WebSocketService {
             }));
         } catch (e) {
             console.error('Handle messsage error:', e);
+            const errorMsg = e instanceof Error ? e.message : 'Failed to process msg';
             ws.send(JSON.stringify({
                 type: 'error',
-                message: 'Failed to process msg'
+                message: errorMsg
             }));
         }
     }
@@ -341,9 +362,10 @@ export class WebSocketService {
             ws.conId = undefined;
         } catch(e) {
             console.error('End Conversation error:', e);
+            const errorMsg = e instanceof Error ? e.message : 'Failed to end conversation';
             ws.send(JSON.stringify({
                 type: 'error',
-                message: 'Failed to end conversation'
+                message: errorMsg
             }));
         }
     }

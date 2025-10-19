@@ -15,16 +15,32 @@ export const ConversationScreen: React.FC = () => {
     const [inputValue, setInputValue] = useState('');
     const [isEnding, setIsEnding] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const hasStartedConversation = useRef(false);
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages, isTyping]);
 
     useEffect(() => {
-        if (isConnected && !conId && !summary) {
+        // console.log('ConversationScreen state:', { isConnected, conId, summary: !!summary, scenario, hasStarted: hasStartedConversation.current });
+        if (isConnected && !conId && !summary && !hasStartedConversation.current) {
+            // console.log('✅ Calling startConversation');
+            hasStartedConversation.current = true;
             startConversation(scenario || undefined);
-        }
+        } 
     }, [isConnected, conId, scenario, startConversation, summary]);
+
+    // Reset the flag when conId is set (conversation successfully started)
+    useEffect(() => {
+        if (conId) {
+            hasStartedConversation.current = false;
+        }
+    }, [conId]);
+
+    // Reset the flag when navigating to a new scenario
+    useEffect(() => {
+        hasStartedConversation.current = false;
+    }, [scenario]);
 
     const handleSend = (e: React.FormEvent) => {
         e.preventDefault();
@@ -66,7 +82,7 @@ export const ConversationScreen: React.FC = () => {
                     </div>
 
                     <div className="space-y-6">
-                        
+
                         <div className="bg-blue-50 rounded-lg p-6">
                             <h3 className="font-semibold text-lg mb-2 flex items-center">
                                 <span className="mr-2">📝</span> Summary
@@ -74,7 +90,7 @@ export const ConversationScreen: React.FC = () => {
                             <p className="text-gray-700">{summary.summary}</p>
                         </div>
 
-                        
+
                         <div className="bg-green-50 rounded-lg p-6">
                             <h3 className="font-semibold text-lg mb-2 flex items-center">
                                 <span className="mr-2">💡</span> Feedback
@@ -82,7 +98,7 @@ export const ConversationScreen: React.FC = () => {
                             <p className="text-gray-700">{summary.feedback}</p>
                         </div>
 
-                        
+
                         <div className="grid grid-cols-2 gap-4">
                             <div className="bg-purple-50 rounded-lg p-4 text-center">
                                 <div className="text-3xl font-bold text-purple-600">{summary.messageCt}</div>
@@ -152,6 +168,7 @@ export const ConversationScreen: React.FC = () => {
 
             <div className="flex-1 overflow-y-auto px-4 py-6">
                 <div className="max-w-3xl mx-auto">
+
                     {messages.length === 0 && !isTyping && (
                         <div className="text-center text-gray-500 mt-8">
                             <div className="text-4xl mb-3">👋</div>
